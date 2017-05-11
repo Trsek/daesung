@@ -1,0 +1,179 @@
+<?php
+require_once("objects.php");
+
+/********************************************************************
+* @brief Remove 0A/0D if have it. Remove SMS prefix if have it
+*/
+function DEASUNG_NORMALIZE($SMS)
+{
+	$SMS = strtoupper($SMS);
+	
+	// strip all spaces
+	$SMS = str_replace(' ', '', $SMS);
+	$SMS = str_replace(':', '', $SMS);
+	$SMS = str_replace("\r", '', $SMS);
+	$SMS = str_replace("\n", '', $SMS);
+	$SMS = str_replace("0x", '', $SMS);
+	return $SMS;
+}
+
+/********************************************************************
+ * @brief Added space every $len
+ */
+function add_soft_space($DATI, $len)
+{
+	$asnwer = "";
+	while( strlen($DATI))
+	{	
+		$answer .= substr($DATI, 0, $len) ." ";
+		$DATI = substr($DATI, $len, strlen($DATI));
+	}   
+
+	return $answer;
+}
+
+/********************************************************************
+* @brief Make HTML format from array
+* @retval HTML format divide by <br>
+*/
+function deasung_array_show($value)
+{
+	if( is_array($value) && count($value)==1)
+		$value = $value[0];
+	
+	if( !is_array($value))
+	{
+		$space = "";
+		while($value[0] == ' ')
+		{
+			$space .= "&nbsp;";
+			$value = substr($value, 1, strlen($value));
+		}
+		return $space. $value;
+	}
+
+	$out = "";
+	foreach ($value as $value_line)
+	{
+		$out .= deasung_array_show($value_line) . "<br>";
+	}
+	return $out;
+}
+
+/********************************************************************
+* @brief Show analyze PACKET
+* @retval HTML table format
+*/
+function deasung_show($SMS)
+{
+	$length = hexdec(substr_cut($SMS, 2));
+	$out = "";
+	while( strlen($SMS) > 0 )
+	{
+		$DEASUNG_FRAME = deasung_analyze_frame($SMS);
+		$out .= "<table class='table-style-two'>";
+		if( $length > 0 )
+		{
+			$out .= "<tr><td>LENGTH</td><td>$length Bytes</td></tr>";
+			$length = 0;
+		}
+		foreach ($DEASUNG_FRAME as $name => $value)
+		{
+			$out .= "<tr>";
+			$out .= "<td>". $name ."</td>";
+			$out .= "<td>";
+			$out .= deasung_array_show($value);
+			$out .= "</td>";
+			$out .= "</tr>";
+		}
+		$out .= "</table>";
+		$out .= "<br><br>";
+	}
+	
+	return $out;
+}
+
+/********************************************************************
+* @brief Check CRC
+*/
+function deasung_CRCCheck($crc, $crc_data)
+{
+	// compute
+	$crc_compute = 0;
+	while( strlen($crc_data))
+	{
+		$crc_compute ^= hexdec(substr_cut($crc_data,1));
+	}
+	
+	$crc_compute += 1;
+	$crc_compute = sprintf("%02X", $crc_compute);
+	
+	if( $crc_compute == $crc )
+		$answ = "$crc - OK";
+	else
+		$answ = "$crc - bad, correctly $crc_compute";
+				
+	return $answ;
+}
+
+/********************************************************************
+* @brief Decomp alarm byte
+*/
+function decomp_alarm($alarm)
+{
+	$alarm_text = array(
+		0 => "0: Normal",
+		1 => "1: Alarm",
+	);
+	$answer[] = "Temperature Low limit - "          . $alarm_text[($alarm & 0x01)>0];
+	$answer[] = "Temperature High limit - "         . $alarm_text[($alarm & 0x02)>0];
+	$answer[] = "Pressure Low limit - "             . $alarm_text[($alarm & 0x04)>0];
+	$answer[] = "Pressure High limit - "            . $alarm_text[($alarm & 0x08)>0];
+	$answer[] = "Low voltage - "                    . $alarm_text[($alarm & 0x10)>0];
+	$answer[] = "Exceeds the range Input Signal - " . $alarm_text[($alarm & 0x20)>0];
+	$answer[] = "EVC communication error - "        . $alarm_text[($alarm & 0x40)>0];
+	
+	return $answer;
+}
+
+/********************************************************************
+* @brief Convert HEX to float
+*/
+function deasung_float($SMS, $len, $decimal)
+{
+	$cislo = (double)hexdec(substr_cut($SMS, $len - $decimal));
+	$part  = (double)hexdec(substr_cut($SMS, $decimal));
+	$part /= pow(10, 2*$decimal);
+	
+	return $cislo + $part; 
+}
+
+/********************************************************************
+* @brief MetaAnalyze frame name
+*/
+function deasung_analyze_frame(&$SMS)
+{
+	$crc_data = substr($SMS, 2, 86);
+	$SMS_DATI['STX']        = substr_cut($SMS, 1);
+	$SMS_DATI['ARM ID1']    = substr_cut($SMS, 1);
+	$SMS_DATI['ARM ID2']    = substr_cut($SMS, 3);	
+	$SMS_DATI['USER PART']  = substr_cut($SMS, 5);
+	$SMS_DATI['EVC MODEL']  = substr_cut($SMS, 1);
+	$SMS_DATI['DATE/TIME']  = deasung_date(substr_cut($SMS, 6));
+	$SMS_DATI['VM']         = hexdec(substr_cut($SMS, 5)) . " ". deasung_get_mj(UNIT_m3);
+	$SMS_DATI['VB']         = hexdec(substr_cut($SMS, 5)) . " ". deasung_get_mj(UNIT_m3);
+	$temp_sing              = substr_cut($SMS, 1);
+	$SMS_DATI['TEMP']       = (deasung_float(substr_cut($SMS, 2), 2, 1) * (($temp_sing=='01')? -1: 1)) . " ". deasung_get_mj(UNIT_stC);
+	$SMS_DATI['PRESS']      = deasung_float(substr_cut($SMS, 4), 4, 2) . " ". deasung_get_mj(UNIT_kPa);
+	$SMS_DATI['C']          = deasung_float(substr_cut($SMS, 3), 3, 2);
+	$SMS_DATI['QB']         = hexdec(substr_cut($SMS, 3)) . " ". deasung_get_mj(UNIT_m3h);
+	$SMS_DATI['ALARM']      = decomp_alarm(substr_cut($SMS, 1));
+	$SMS_DATI['FW VERSION'] = deasung_float(substr_cut($SMS, 2), 2, 1);
+	$SMS_DATI['DATA INTERVAL'] = hexdec(substr_cut($SMS, 1)). " min";
+	$SMS_DATI['CRC']        = deasung_CRCCheck(substr_cut($SMS, 1), $crc_data);
+	$SMS_DATI['ETX']        = substr_cut($SMS, 1);
+	
+	return $SMS_DATI;
+}
+/*----------------------------------------------------------------------------*/
+/* END OF FILE */
