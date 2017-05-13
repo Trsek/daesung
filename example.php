@@ -13,7 +13,7 @@ $example_packet = array(
 */
 function is_example_time()
 {
-	if( empty($_POST) && empty($_REQUEST))
+	if( empty($_POST) && empty($_GET))
 		return true;
 	
 	return false;

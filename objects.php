@@ -97,7 +97,7 @@ function deasung_date($DATI)
 	$data_minute = hexdec(substr_cut($DATI, 1));	
 	$data_second = hexdec(substr_cut($DATI, 1));
 	
-	return sprintf("%04d-%02d-%02d %02d:%02d:%02d", $data_year, $data_month, $data_day, $data_hour, $data_minute, $data_second);	break;
+	return sprintf("%04d-%02d-%02d %02d:%02d:%02d", $data_year, $data_month, $data_day, $data_hour, $data_minute, $data_second);
 }
 
 /********************************************************************
