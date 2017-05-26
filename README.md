@@ -1,2 +1,2 @@
-# deasung
-Show gas comunication protocol in human view (Deasung South Korea)
+# daesung
+Show gas comunication protocol in human view (Daesung South Korea)

@@ -4,7 +4,7 @@ require_once("objects.php");
 /********************************************************************
 * @brief Remove 0A/0D if have it. Remove SMS prefix if have it
 */
-function DEASUNG_NORMALIZE($SMS)
+function DAESUNG_NORMALIZE($SMS)
 {
 	$SMS = strtoupper($SMS);
 	
@@ -36,7 +36,7 @@ function add_soft_space($DATI, $len)
 * @brief Make HTML format from array
 * @retval HTML format divide by <br>
 */
-function deasung_array_show($value)
+function daesung_array_show($value)
 {
 	if( is_array($value) && count($value)==1)
 		$value = $value[0];
@@ -55,7 +55,7 @@ function deasung_array_show($value)
 	$out = "";
 	foreach ($value as $value_line)
 	{
-		$out .= deasung_array_show($value_line) . "<br>";
+		$out .= daesung_array_show($value_line) . "<br>";
 	}
 	return $out;
 }
@@ -64,25 +64,25 @@ function deasung_array_show($value)
 * @brief Show analyze PACKET
 * @retval HTML table format
 */
-function deasung_show($SMS)
+function daesung_show($SMS)
 {
 	$length = hexdec(substr_cut($SMS, 2));
 	$out = "";
 	while( strlen($SMS) > 0 )
 	{
-		$DEASUNG_FRAME = deasung_analyze_frame($SMS);
+		$DAESUNG_FRAME = daesung_analyze_frame($SMS);
 		$out .= "<table class='table-style-two'>";
 		if( $length > 0 )
 		{
 			$out .= "<tr><td>LENGTH</td><td>$length Bytes</td></tr>";
 			$length = 0;
 		}
-		foreach ($DEASUNG_FRAME as $name => $value)
+		foreach ($DAESUNG_FRAME as $name => $value)
 		{
 			$out .= "<tr>";
 			$out .= "<td>". $name ."</td>";
 			$out .= "<td>";
-			$out .= deasung_array_show($value);
+			$out .= daesung_array_show($value);
 			$out .= "</td>";
 			$out .= "</tr>";
 		}
@@ -96,7 +96,7 @@ function deasung_show($SMS)
 /********************************************************************
 * @brief Check CRC
 */
-function deasung_CRCCheck($crc, $crc_data)
+function daesung_CRCCheck($crc, $crc_data)
 {
 	// compute
 	$crc_compute = 0;
@@ -139,7 +139,7 @@ function decomp_alarm($alarm)
 /********************************************************************
 * @brief Convert HEX to float
 */
-function deasung_float($SMS, $len, $decimal)
+function daesung_float($SMS, $len, $decimal)
 {
 	$cislo = (double)hexdec(substr_cut($SMS, $len - $decimal));
 	$part  = (double)hexdec(substr_cut($SMS, $decimal));
@@ -151,7 +151,7 @@ function deasung_float($SMS, $len, $decimal)
 /********************************************************************
 * @brief MetaAnalyze frame name
 */
-function deasung_analyze_frame(&$SMS)
+function daesung_analyze_frame(&$SMS)
 {
 	$crc_data = substr($SMS, 2, 86);
 	$SMS_DATI['STX']        = substr_cut($SMS, 1);
@@ -159,18 +159,18 @@ function deasung_analyze_frame(&$SMS)
 	$SMS_DATI['ARM ID2']    = substr_cut($SMS, 3);	
 	$SMS_DATI['USER PART']  = substr_cut($SMS, 5);
 	$SMS_DATI['EVC MODEL']  = substr_cut($SMS, 1);
-	$SMS_DATI['DATE/TIME']  = deasung_date(substr_cut($SMS, 6));
-	$SMS_DATI['VM']         = hexdec(substr_cut($SMS, 5)) . " ". deasung_get_mj(UNIT_m3);
-	$SMS_DATI['VB']         = hexdec(substr_cut($SMS, 5)) . " ". deasung_get_mj(UNIT_m3);
+	$SMS_DATI['DATE/TIME']  = daesung_date(substr_cut($SMS, 6));
+	$SMS_DATI['VM']         = hexdec(substr_cut($SMS, 5)) . " ". daesung_get_mj(UNIT_m3);
+	$SMS_DATI['VB']         = hexdec(substr_cut($SMS, 5)) . " ". daesung_get_mj(UNIT_m3);
 	$temp_sing              = substr_cut($SMS, 1);
-	$SMS_DATI['TEMP']       = (deasung_float(substr_cut($SMS, 2), 2, 1) * (($temp_sing=='01')? -1: 1)) . " ". deasung_get_mj(UNIT_stC);
-	$SMS_DATI['PRESS']      = deasung_float(substr_cut($SMS, 4), 4, 2) . " ". deasung_get_mj(UNIT_kPa);
-	$SMS_DATI['C']          = deasung_float(substr_cut($SMS, 3), 3, 2);
-	$SMS_DATI['QB']         = hexdec(substr_cut($SMS, 3)) . " ". deasung_get_mj(UNIT_m3h);
+	$SMS_DATI['TEMP']       = (daesung_float(substr_cut($SMS, 2), 2, 1) * (($temp_sing=='01')? -1: 1)) . " ". daesung_get_mj(UNIT_stC);
+	$SMS_DATI['PRESS']      = daesung_float(substr_cut($SMS, 4), 4, 2) . " ". daesung_get_mj(UNIT_kPa);
+	$SMS_DATI['C']          = daesung_float(substr_cut($SMS, 3), 3, 2);
+	$SMS_DATI['QB']         = hexdec(substr_cut($SMS, 3)) . " ". daesung_get_mj(UNIT_m3h);
 	$SMS_DATI['ALARM']      = decomp_alarm(substr_cut($SMS, 1));
-	$SMS_DATI['FW VERSION'] = deasung_float(substr_cut($SMS, 2), 2, 1);
+	$SMS_DATI['FW VERSION'] = daesung_float(substr_cut($SMS, 2), 2, 1);
 	$SMS_DATI['DATA INTERVAL'] = hexdec(substr_cut($SMS, 1)). " min";
-	$SMS_DATI['CRC']        = deasung_CRCCheck(substr_cut($SMS, 1), $crc_data);
+	$SMS_DATI['CRC']        = daesung_CRCCheck(substr_cut($SMS, 1), $crc_data);
 	$SMS_DATI['ETX']        = substr_cut($SMS, 1);
 	
 	return $SMS_DATI;

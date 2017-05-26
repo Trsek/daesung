@@ -1,6 +1,6 @@
 <?php
 	// write to log
-	define("_BBC_PAGE_NAME", substr($DEASUNG_FRAME, 0, 30));
+	define("_BBC_PAGE_NAME", substr($DAESUNG_FRAME, 0, 30));
 	define("_BBCLONE_DIR", "bbclone/");
 	define("_BBC_ROOT_PATH", "bbclone/");
 	define("COUNTER", _BBCLONE_DIR."mark_page.php");
@@ -9,11 +9,11 @@
 		include_once(COUNTER);
 
 	// write to log
-	file_put_contents("log/packets.txt", $DEASUNG_FRAME. PHP_EOL , FILE_APPEND);
+	file_put_contents("log/packets.txt", $DAESUNG_FRAME. PHP_EOL , FILE_APPEND);
 	
 	// make link for customer
-	if( !empty($_REQUEST["DEASUNG_FRAME"])) {
-		$link = "?DEASUNG_FRAME=". $_REQUEST["DEASUNG_FRAME"];
+	if( !empty($_REQUEST["DAESUNG_FRAME"])) {
+		$link = "?DAESUNG_FRAME=". $_REQUEST["DAESUNG_FRAME"];
 		echo("<div align='right'><a href='$link'>Copy link of packet</a></div>");
 	} 
 	

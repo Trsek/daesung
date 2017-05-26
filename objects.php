@@ -34,7 +34,7 @@ function hexToStr($hex)
 /********************************************************************
 * @brief Return text presentation unit of measure
 */
-function deasung_get_mj($unit)
+function daesung_get_mj($unit)
 {
 	$unit_str = array(
 		 UNIT_DEFAULT =>"",			
@@ -86,9 +86,9 @@ function deasung_get_mj($unit)
 }
 
 /********************************************************************
-* @brief Deasung date presentation
+* @brief Daesung date presentation
 */
-function deasung_date($DATI)
+function daesung_date($DATI)
 {
 	$data_year   = hexdec(substr_cut($DATI, 1))+2000;	
 	$data_month  = hexdec(substr_cut($DATI, 1));	
