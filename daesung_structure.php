@@ -126,14 +126,14 @@ function decomp_alarm($alarm)
 		1 => "1: Alarm",
 	);
 	$answer[] = $alarm ." hex";
-	$answer[] = "Temperature Low limit - "          . $alarm_text[($alarm & 0x01)>0];
-	$answer[] = "Temperature High limit - "         . $alarm_text[($alarm & 0x02)>0];
-	$answer[] = "Pressure Low limit - "             . $alarm_text[($alarm & 0x04)>0];
-	$answer[] = "Pressure High limit - "            . $alarm_text[($alarm & 0x08)>0];
-	$answer[] = "Low voltage - "                    . $alarm_text[($alarm & 0x10)>0];
-	$answer[] = "Exceeds the range Input Signal - " . $alarm_text[($alarm & 0x20)>0];
-	$answer[] = "EVC communication error - "        . $alarm_text[($alarm & 0x40)>0];
-	
+	$answer[] = $alarm_text[($alarm & 0x01)>0] ." - Temperature Low limit";
+	$answer[] = $alarm_text[($alarm & 0x02)>0] ." - Temperature High limit";
+	$answer[] = $alarm_text[($alarm & 0x04)>0] ." - Pressure Low limit";
+	$answer[] = $alarm_text[($alarm & 0x08)>0] ." - Pressure High limit";
+	$answer[] = $alarm_text[($alarm & 0x10)>0] ." - Low voltage";
+	$answer[] = $alarm_text[($alarm & 0x20)>0] ." - Exceeds the range Input Signal";
+	$answer[] = $alarm_text[($alarm & 0x40)>0] ." - EVC communication error";
+		
 	return $answer;
 }
 
