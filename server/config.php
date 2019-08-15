@@ -1,7 +1,7 @@
 <?php
 	# db filename
-//	define(DB_NAME, "data/daesung.sqlite");
-	define(DB_NAME, "../../xml/SLRCAppTerm/data/xmldata.sqlite");
+//	define('DB_NAME', "data/daesung.sqlite");
+	define('DB_NAME', "../../xml/SLRCAppTerm/data/xmldata.sqlite");
 
 	date_default_timezone_set('Europe/Prague');
 	

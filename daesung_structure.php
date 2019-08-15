@@ -161,13 +161,13 @@ function daesung_analyze_frame(&$SMS)
 	$SMS_DATI['USER PART']  = substr_cut($SMS, 5);
 	$SMS_DATI['EVC MODEL']  = substr_cut($SMS, 1);
 	$SMS_DATI['DATE/TIME']  = daesung_date(substr_cut($SMS, 6));
-	$SMS_DATI['VM']         = hexdec(substr_cut($SMS, 5)) . " ". daesung_get_mj(UNIT_m3);
-	$SMS_DATI['VB']         = hexdec(substr_cut($SMS, 5)) . " ". daesung_get_mj(UNIT_m3);
+	$SMS_DATI['VM']         = hexdec(substr_cut($SMS, 5)) . " ". daesung_get_mj('UNIT_m3');
+	$SMS_DATI['VB']         = hexdec(substr_cut($SMS, 5)) . " ". daesung_get_mj('UNIT_m3');
 	$temp_sing              = substr_cut($SMS, 1);
-	$SMS_DATI['TEMP']       = (daesung_float(substr_cut($SMS, 2), 2, 1) * (($temp_sing=='01')? -1: 1)) . " ". daesung_get_mj(UNIT_stC);
-	$SMS_DATI['PRESS']      = daesung_float(substr_cut($SMS, 4), 4, 2) . " ". daesung_get_mj(UNIT_kPa);
+	$SMS_DATI['TEMP']       = (daesung_float(substr_cut($SMS, 2), 2, 1) * (($temp_sing=='01')? -1: 1)) . " ". daesung_get_mj('UNIT_stC');
+	$SMS_DATI['PRESS']      = daesung_float(substr_cut($SMS, 4), 4, 2) . " ". daesung_get_mj('UNIT_kPa');
 	$SMS_DATI['C']          = daesung_float(substr_cut($SMS, 3), 3, 2);
-	$SMS_DATI['QB']         = hexdec(substr_cut($SMS, 3)) . " ". daesung_get_mj(UNIT_m3h);
+	$SMS_DATI['QB']         = hexdec(substr_cut($SMS, 3)) . " ". daesung_get_mj('UNIT_m3h');
 	$SMS_DATI['ALARM']      = decomp_alarm(substr_cut($SMS, 1));
 	$SMS_DATI['FW VERSION'] = daesung_float(substr_cut($SMS, 2), 2, 1);
 	$SMS_DATI['DATA INTERVAL'] = hexdec(substr_cut($SMS, 1)). " min";
