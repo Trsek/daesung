@@ -125,6 +125,8 @@ function decomp_alarm($alarm)
 		0 => "0: Normal",
 		1 => "1: Alarm",
 	);
+	if( !is_numeric($alarm))
+	    $alarm = 0;
 	$answer[] = $alarm ." hex";
 	$answer[] = $alarm_text[($alarm & 0x01)>0] ." - Temperature Low limit";
 	$answer[] = $alarm_text[($alarm & 0x02)>0] ." - Temperature High limit";
