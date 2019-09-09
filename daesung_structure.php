@@ -22,7 +22,7 @@ function DAESUNG_NORMALIZE($SMS)
  */
 function add_soft_space($DATI, $len)
 {
-	$asnwer = "";
+	$answer = "";
 	while( strlen($DATI))
 	{	
 		$answer .= substr($DATI, 0, $len) ." ";
@@ -127,6 +127,8 @@ function decomp_alarm($alarm)
 	);
 	if( !is_numeric($alarm))
 	    $alarm = 0;
+
+	$answer = [];
 	$answer[] = $alarm ." hex";
 	$answer[] = $alarm_text[($alarm & 0x01)>0] ." - Temperature Low limit";
 	$answer[] = $alarm_text[($alarm & 0x02)>0] ." - Temperature High limit";
@@ -157,6 +159,7 @@ function daesung_float($SMS, $len, $decimal)
 function daesung_analyze_frame(&$SMS)
 {
 	$crc_data = substr($SMS, 2, 86);
+	$SMS_DATI = [];
 	$SMS_DATI['STX']        = substr_cut($SMS, 1);
 	$SMS_DATI['ARM ID1']    = substr_cut($SMS, 1);
 	$SMS_DATI['ARM ID2']    = substr_cut($SMS, 3);	
