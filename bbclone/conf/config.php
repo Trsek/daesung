@@ -48,7 +48,7 @@ $BBC_SHOW_CONFIG = "1";
 // $BBC_TITLEBAR = ""; => "Statistics for %SERVER generated on %DATE" but language specific (Default)
 // $BBC_TITLEBAR = "Some text"; => FIXED TEXT, not language specific)
 // $BBC_TITLEBAR = "Statistics for %SERVER generated on %DATE"; => Example
-$BBC_TITLEBAR = "";
+$BBC_TITLEBAR = "Štatistika pre DAESUNG parser generovaná v %DATE";
 
 // BBClone's default language, in case it hasn't been specified by the browser.
 // It's strongly recommended you set your language (if listed) because will encode search
@@ -57,7 +57,7 @@ $BBC_TITLEBAR = "";
 // The following languages are supported:
 // ar, bg, bs, ca, cs, da, de, el, en, es, fi, fr, hu, id, it, ja, ko, lt, mk,
 // nb, nl, pl, pt, pt-br, ro, ru, sk, sl, sv, th, tr, ua, zh-cn and zh-tw.
-$BBC_LANGUAGE = "en";
+$BBC_LANGUAGE = "sk";
 
 // This variable defines the length of an unique visit in seconds. Each hit from the same visitor
 // within this period will be considered as one visit, as long as two successive hits don't exceed
@@ -71,19 +71,19 @@ $BBC_MAXTIME = 1800;
 // How many entries you want to have listed in the detailed stats? The default value is 100.
 // It's recommended not to set it higher than 500 to avoid too heavy load.
 // A value of "0" will reset the detailed stats.
-$BBC_MAXVISIBLE = 100;
+$BBC_MAXVISIBLE = 200;
 
 // The following entries affect how much items will be displayed in each ranking of show_global.php.
 // The second group can be reset by setting "0" as value.
-$BBC_MAXBROWSER = 10;         // Browsers
-$BBC_MAXEXTENSION = 10;       // Extensions
-$BBC_MAXOS = 10;              // Operating Systems
-$BBC_MAXROBOT = 10;           // Robots
+$BBC_MAXBROWSER = 15;         // Browsers
+$BBC_MAXEXTENSION = 15;       // Extensions
+$BBC_MAXOS = 15;              // Operating Systems
+$BBC_MAXROBOT = 15;           // Robots
 
-$BBC_MAXHOST = 10;            // Hosts (reset possible)
-$BBC_MAXKEY = 10;             // Keywords (reset possible)
-$BBC_MAXORIGIN = 10;          // Referrers (reset possible)
-$BBC_MAXPAGE = 10;            // Pages (reset possible)
+$BBC_MAXHOST = 15;            // Hosts (reset possible)
+$BBC_MAXKEY = 15;             // Keywords (reset possible)
+$BBC_MAXORIGIN = 15;          // Referrers (reset possible)
+$BBC_MAXPAGE = 15;            // Pages (reset possible)
 
 // The variable $BBC_DETAILED_STAT_FIELDS Contains a comma separated list of
 // all columns to be displayed in the detailed stats. You can choose from:
@@ -185,7 +185,7 @@ $BBC_IGNORE_REFER = "";
 // Syntax:
 // $BBC_HITS = 1;     => Include BBClone hits (Default)
 // $BBC_HITS = "";    => Ignore BBClone hits
-$BBC_HITS = 1;
+$BBC_HITS = "";
 
 // BBClone doesn't display any messages in its counting mode. Time and again,
 // however you may wish to see what BBClone is doing or why it no longer is
@@ -217,7 +217,7 @@ $BBC_CSS_FILE = "bbclone.css";
 // Syntax:
 // $BBC_LOADTIME = "";       => No load-time generated (Default)
 // $BBC_LOADTIME = 1;        => Generate load-time at bottom of the page
-$BBC_LOADTIME = "";
+$BBC_LOADTIME = 1;
 
 // With this option you can enable whois search in Detailed Stats
 //
@@ -227,7 +227,7 @@ $BBC_LOADTIME = "";
 // Syntax:
 // $BBC_WHOIS ="http://whois.domaintools.com/";   => Example
 // $BBC_WHOIS ="http://www.ripe.net/perl/whois?"; => Example
-$BBC_WHOIS ="";
+$BBC_WHOIS ="http://whois.domaintools.com/";
 
 // You can use this option to determine the treatment of robots. The default is
 // to ignore them in the top hosts ranking but leave them in the remaining
@@ -237,7 +237,7 @@ $BBC_WHOIS ="";
 // $BBC_IGNORE_BOTS = 2;      => Completely ignore robots
 // $BBC_IGNORE_BOTS = 1;      => Don't list hostnames of robots (default)
 // $BBC_IGNORE_BOTS = "";     => Treat robots as normal visitors
-$BBC_IGNORE_BOTS = 1;
+$BBC_IGNORE_BOTS = 2;
 
 // This option defines how BBClone tells one visitor from another. Default is to
 // use the IP address only, which provides realistic figures in most cases. If,
@@ -258,7 +258,7 @@ $BBC_IGNORE_AGENT = "";
 // Syntax:
 // $BBC_USE_ORIGINAL_URI = 1;	=> No filtering, use original URI
 // $BBC_USE_ORIGINAL_URI = "";	=> Filter URI (default)
-$BBC_USE_ORIGINAL_URI = "";
+$BBC_USE_ORIGINAL_URI = "1";
 
 // The max. number of characters for the page name.
 // Longer page names will be stripped-down at the front, leading with "..."
