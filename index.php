@@ -32,9 +32,9 @@
 <?php echo show_example();?>
 <table>
 <form action='index.php' method='post' ENCTYPE='multipart/form-data' class='form-style-two'>
-	Packet (hex format)<br>
-	<textarea name='DAESUNG_FRAME' rows="9" cols="63"><?php echo $DAESUNG_FRAME;?></textarea><br>
-	<input type='submit' name='analyze' value='analyze'><br>
+	<u>P</u>acket (hex format)<br>
+	<textarea name='DAESUNG_FRAME' rows="9" cols="63" accesskey='p'><?php echo $DAESUNG_FRAME;?></textarea><br>
+	<input type='submit' name='analyze' value='Analyze' accesskey='a'><br>
 	<br>Frame<br>
 	<?php
 	//var_dump($GLOBALS);
